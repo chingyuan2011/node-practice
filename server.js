@@ -1,5 +1,6 @@
 const http = require("http");
 const { v4: uuidv4 } = require("uuid");
+const errHandler = require("./errHandler");
 
 const todos = [
   {
@@ -49,31 +50,16 @@ const requestListener = (req, res) => {
           res.writeHead(200, headers);
           res.write(
             JSON.stringify({
-              "status": "success",
-              "data": todos,
+              status: "success",
+              data: todos,
             })
           );
           res.end();
         } else {
-          res.writeHead(400, headers);
-          res.write(
-            JSON.stringify({
-              status: "error",
-              message: "程式錯誤 - title 不存在",
-            })
-          );
-          res.end();
+          errHandler(res);
         }
       } catch (err) {
-        console.log("err", err);
-        res.writeHead(400, headers);
-        res.write(
-          JSON.stringify({
-            status: "error",
-            message: "程式錯誤",
-          })
-        );
-        res.end();
+        errHandler(res);
       }
     });
   } else if (req.url === "/todos" && req.method === "OPTIONS") {
