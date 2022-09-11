@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/chingyuan2011/node-practice/issues"
   },
-  "homepage": "https://github.com/chingyuan2011/node-practice#readme"
+  "homepage": "https://github.com/chingyuan2011/node-practice#readme",
+  "dependencies": {
+    "uuid": "^9.0.0"
+  }
 }
