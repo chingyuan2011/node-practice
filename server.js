@@ -62,6 +62,16 @@ const requestListener = (req, res) => {
         errHandler(res);
       }
     });
+  } else if (req.url === "/todos" && req.method === "DELETE") {
+    todos.length = 0;
+    res.writeHead(200, headers);
+    res.write(
+      JSON.stringify({
+        status: "success",
+        data: todos,
+      })
+    );
+    res.end();
   } else if (req.url === "/todos" && req.method === "OPTIONS") {
     // preflight 機制 - 跨網域
     res.writeHead(200, headers);
