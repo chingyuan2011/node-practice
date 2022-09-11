@@ -37,20 +37,44 @@ const requestListener = (req, res) => {
   } else if (req.url === "/todos" && req.method === "POST") {
     // 取得 request 中的 body
     req.on("end", () => {
-      const todo = {
-        title: JSON.parse(data).title,
-        id: uuidv4(),
-      };
-      todos.push(todo);
+      try {
+        const title = JSON.parse(data).title;
+        if (title !== undefined) {
+          const todo = {
+            title: title,
+            id: uuidv4(),
+          };
+          todos.push(todo);
 
-      res.writeHead(200, headers);
-      res.write(
-        JSON.stringify({
-          status: "success",
-          data: todos,
-        })
-      );
-      res.end();
+          res.writeHead(200, headers);
+          res.write(
+            JSON.stringify({
+              "status": "success",
+              "data": todos,
+            })
+          );
+          res.end();
+        } else {
+          res.writeHead(400, headers);
+          res.write(
+            JSON.stringify({
+              status: "error",
+              message: "程式錯誤 - title 不存在",
+            })
+          );
+          res.end();
+        }
+      } catch (err) {
+        console.log("err", err);
+        res.writeHead(400, headers);
+        res.write(
+          JSON.stringify({
+            status: "error",
+            message: "程式錯誤",
+          })
+        );
+        res.end();
+      }
     });
   } else if (req.url === "/todos" && req.method === "OPTIONS") {
     // preflight 機制 - 跨網域
@@ -60,8 +84,8 @@ const requestListener = (req, res) => {
     res.writeHead(404, headers);
     res.write(
       JSON.stringify({
-        "status": "error",
-        "message": "錯誤路由",
+        status: "error",
+        message: "錯誤路由",
       })
     );
     res.end();
