@@ -88,6 +88,29 @@ const requestListener = (req, res) => {
     } else {
       errHandler(res);
     }
+  } else if (req.url.startsWith("/todos/") && req.method === "PATCH") {
+    req.on("end", () => {
+      try {
+        const title = JSON.parse(data).title;
+        const id = req.url.split("/").pop();
+        const index = todos.findIndex((el) => el.id == id);
+        if (title && index !== -1) {
+          todos[index].title = title;
+          res.writeHead(200, headers);
+          res.write(
+            JSON.stringify({
+              status: "success",
+              data: todos,
+            })
+          );
+          res.end();
+        } else {
+          errHandler(res);
+        }
+      } catch {
+        errHandler(res);
+      }
+    });
   } else if (req.url === "/todos" && req.method === "OPTIONS") {
     // preflight 機制 - 跨網域
     res.writeHead(200, headers);
