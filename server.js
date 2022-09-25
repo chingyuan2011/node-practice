@@ -93,4 +93,24 @@ const init = async function () {
   }
 }
 
-init()
+// init()
+
+
+// promise.all
+
+function correctTest4(name) {
+  return new Promise((resolve, reject) => {
+    const time = Math.random() * 10000
+    setTimeout(() => {
+      const score = Math.round(Math.random() * 100);
+      resolve({
+        name,
+        score,
+      });  
+      console.log(name, time / 10000) ;
+    }, time);
+  })
+}
+
+Promise.all([correctTest4('小明'), correctTest4('小花'), correctTest4('小白')])
+  .then(data => console.log(data))
