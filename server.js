@@ -77,7 +77,20 @@ function checkAward3 (data) {
     })
 }
 
-correctTest3("小明")
-  .then((data) => checkAward3(data))
-  .then((data) => console.log(data))
-  .catch((err) => console.log('err', err));
+// correctTest3("小明")
+//   .then((data) => checkAward3(data))
+//   .then((data) => console.log(data))
+//   .catch((err) => console.log('err', err));
+
+
+const init = async function () {
+  try {
+    const studentA = await correctTest3("小明")
+    const rewardA = await checkAward3(studentA)
+    console.log(rewardA);
+  }catch(err) {
+    console.log('err', err);
+  }
+}
+
+init()
