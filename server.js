@@ -36,7 +36,7 @@ function correctTest3(name) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const score = Math.round(Math.random() * 100);
-      if (score >= 50) {
+      if (score >= 20) {
         resolve({
           name,
           score,
@@ -55,16 +55,22 @@ function checkAward3 (data) {
     return new Promise((resolve, reject) => {
         console.log('正在檢查獎品中...');
         setTimeout(() => {
-            if(data.score > 70) {
+            if(data.score > 90) {
                 resolve({
                     ...data,
                     award: '1000元'
                 })
-            } else {
-                reject({
+            } else if(data.score >= 60 && data.score <90) {
+                resolve({
                     ...data,
                     award: '500元'
                 })
+            } else {
+              console.log('reject');
+              reject({
+                ...data,
+                award: '打手心十下'
+              })
             }
         }, 1000);
 
